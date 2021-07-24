@@ -1,0 +1,11 @@
+{
+    "required": [
+      "order_amount"
+    ],
+    "additionalProperties": true,
+    "properties": {
+      "order_amount": {
+        "type": "number"
+      }
+    }
+  }

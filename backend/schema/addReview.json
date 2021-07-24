@@ -1,0 +1,16 @@
+{
+    "required": [
+      "review_title",
+      "rating_start"
+    ],
+    "additionalProperties": true,
+    "properties": {
+      "review_title": {
+        "type": "string",
+        "minLength": 3
+      },
+      "rating_start": {
+        "type": "integer"
+      }
+    }
+  }
