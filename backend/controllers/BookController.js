@@ -97,7 +97,7 @@ module.exports = {
         books = await Book.findAll({ 
             attributes: {
                 include: [
-                    [sequelize.literal(`(select (reviews.book_price - discounts.discount_price) from discounts
+                    [sequelize.literal(`(select (books.book_price - discounts.discount_price) from discounts
                     where discounts.book_id = books.id 
                 )`), 'sub_price'
                     ],

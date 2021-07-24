@@ -1,70 +1,38 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 import BookCard from '../BookCard'
 import './FeaturedBook.css'
+const axios = require('axios');
 
 export default function FeaturedBook() {
-    const books = [
-        {
-            id: 1,
-            image: "",
-            title: "Book Title 1",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 2,
-            image: "",
-            title: "Book Title 2",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 1,
-            image: "",
-            title: "Book Title 1",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 2,
-            image: "",
-            title: "Book Title 2",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        
-    ]
+    const [bookRecommend, setbookRecommend] = useState([])
+    const [bookPopular, setbookPopular] = useState([])
+    useEffect(() => {
+        //fetch api get book recommend
+        axios.get('http://localhost:3000/books/getTopRecommended')
+        .then(function (response) {
+            if(response.data.status == 200)
+            {
+                setbookRecommend(response.data.data)
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+          })
+
+        axios.get('http://localhost:3000/books/getTopPopular')
+        .then(function (response) {
+            if(response.data.status == 200)
+            {
+                setbookPopular(response.data.data)
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+          })
+    }, [])
 
     const renderlistBook = (books) => {
         return books.map((item, index) => {
@@ -107,12 +75,12 @@ export default function FeaturedBook() {
                 <TabContent activeTab={activeTab}>
                         <TabPane tabId="1">
                             <Row>
-                                {renderlistBook(books)}
+                                {renderlistBook(bookRecommend)}
                             </Row>
                         </TabPane>
                         <TabPane tabId="2">
                             <Row>
-                                {renderlistBook(books)}
+                                {renderlistBook(bookPopular)}
                             </Row>
                         </TabPane>
                     </TabContent>

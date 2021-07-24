@@ -1,40 +1,30 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import { Col, Row } from 'reactstrap'
 import BookCard from '../BookCard'
 import './ListBookScroll.css'
+const axios = require('axios');
 
 export default function ListBookScroll() {
+    const [books, setBooks] = useState([])
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        axios.get('http://localhost:3000/books/getTopOnsale?top=4')
+        .then(function (response) {
+            if(response.data.status == 200)
+            {
+                setBooks(response.data.data)
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+          .finally(function () {
+                setLoading(false)
+          });
+    }, [])
 
-    const books = [
-        {
-            id: 1,
-            image: "",
-            title: "Book Title 1",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 2,
-            image: "",
-            title: "Book Title 2",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-    ]
+    console.log(books)
 
     const renderlistBook = (books) => {
         return books.map((item, index) => {
