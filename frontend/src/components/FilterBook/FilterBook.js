@@ -1,42 +1,59 @@
-import React from 'react'
+import {React, useEffect, useState} from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import './FilterBook.css'
+const axios = require('axios')
 
-export default function FilterBook() {
+export default function FilterBook(props) {
+    const [categories, setCategories] = useState([])
+    const [authors, setAuthors] = useState([])
+    const stars = [1, 2, 3, 4, 5]
+    useEffect(() => {
+        axios.get('http://localhost:3000/categories')
+        .then(function (response) {
+            if(response.data.status == 200)
+            {
+                setCategories(response.data.data)
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
 
-    const categories = [
-        {
-            id: 1,
-            name: 'Category 1'
-        },
-        {
-            id: 2,
-            name: 'Category 1'
-        },
-        {
-            id: 3,
-            name: 'Category 1'
-        }
-    ]
+        axios.get('http://localhost:3000/authors')
+        .then(function (response) {
+            if(response.data.status == 200)
+            {
+                setAuthors(response.data.data)
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+    }, [])
+    
+    const renderListCategory = (arr, props) => {
+        return arr.map((item) => {
+            return <ListGroupItem tag='a' onClick={() => {
+                props.onSelectCategory(item.id)
+            }} key={item.id}>{item.category_name}</ListGroupItem>
+        })
+    }
+    
+    const renderListAuthor = (arr, props) => {
+        return arr.map((item) => {
+            return <ListGroupItem tag='a' onClick={() => {
+                props.onSelectAuthor(item.id)
+            }} key={item.id}>{item.author_name}</ListGroupItem>
+        })
+    }
 
-    const authors = [
-        {
-            id: 1,
-            name: 'Author 1'
-        },
-        {
-            id: 2,
-            name: 'Author 2'
-        },
-        {
-            id: 3,
-            name: 'Author 3'
-        },
-    ]
-
-    const renderListFilter = (arr) => {
-        return arr.map((item, index) => {
-            return <ListGroupItem tag='a' href="#" key={index}>{item.name}</ListGroupItem>
+    const renderListRating = (arr, props) => {
+        return arr.map((item) => {
+            return <ListGroupItem tag='a' onClick={() => {
+                props.onSelectRating(item)
+            }} key={item}>{item} star</ListGroupItem>
         })
     }
     
@@ -45,26 +62,22 @@ export default function FilterBook() {
             <div>
                 <h6 class='text-primary'>Filter By</h6>
             </div>
-            <div >
+            <div style={{width: '100%'}}>
                <h5>Category</h5>
                 <ListGroup >
-                    {renderListFilter(categories)}
+                    {renderListCategory(categories, props)}
                 </ListGroup>
             </div>
-            <div>
+            <div style={{width: '100%', marginTop: 40}}>
                 <h5>Author</h5>
                 <ListGroup>
-                    {renderListFilter(authors)}
+                    {renderListAuthor(authors, props)}
                 </ListGroup>
             </div>
-            <div>
+            <div style={{width: '100%', marginTop: 40}}>
                 <h5>Rating Review</h5>
                 <ListGroup>
-                    <ListGroupItem>1 Star</ListGroupItem>
-                    <ListGroupItem>2 Star</ListGroupItem>
-                    <ListGroupItem>3 Star</ListGroupItem>
-                    <ListGroupItem>4 Star</ListGroupItem>
-                    <ListGroupItem>5 Star</ListGroupItem>
+                    {renderListRating(stars, props)}
                 </ListGroup>
             </div>
         </div>

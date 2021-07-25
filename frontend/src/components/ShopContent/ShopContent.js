@@ -5,7 +5,7 @@ import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Row, Col } 
 import BookCard from '../BookCard';
 import Paginate from '../Paginate/Paginate';
 
-export default function ShopContent() {
+export default function ShopContent(props) {
 
     const [isOpenSort, setOpenSort] = useState(false);
     const toggle1 = () => setOpenSort(!isOpenSort);
@@ -99,12 +99,48 @@ export default function ShopContent() {
             price: 50000
         },
     ]
+    const listSort = [
+        {
+            name: 'Sort by on sale',
+            code: 'onSale'
+        },
+        {
+            name: 'Sort by popularity',
+            code: 'popular'
+        },
+        {
+            name: 'Sort by price low To high',
+            code: 'priceAsc'
+        },
+        {
+            name: 'Sort by price high to low',
+            code: 'priceDesc'
+        },
+    ]
+
+    const listPaginate = [20, 15, 10, 5]
 
     const renderlistBook = (books) => {
         return books.map((item, index) => {
             return <Col sm="3">
                 <BookCard item={item} key={index}></BookCard>
             </Col>
+        })
+    }
+
+    const renderListSort = (listSort, props) => {
+        return listSort.map(item => {
+            return <DropdownItem onClick={() => {
+                props.onSelectSort(item.code)
+            }}>{item.name}</DropdownItem>
+        })
+    }
+
+    const renderListPaginate = (listPaginate, props) => {
+        return listPaginate.map(item => {
+            return <DropdownItem onClick={() => {
+                props.onSelectPageSize(item)
+            }}>Show {item}</DropdownItem>
         })
     }
 
@@ -120,10 +156,7 @@ export default function ShopContent() {
                             Sort By On Sale
                         </DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem>Sort by on sale</DropdownItem>
-                            <DropdownItem>Sort by popularity</DropdownItem>
-                            <DropdownItem>Sort by price low To high</DropdownItem>
-                            <DropdownItem>Sort by price high to low</DropdownItem>
+                            {renderListSort(listSort, props)}
                         </DropdownMenu>
                     </ButtonDropdown>
 
@@ -132,10 +165,7 @@ export default function ShopContent() {
                             Show 20
                         </DropdownToggle>
                         <DropdownMenu>
-                            <DropdownItem>Show 20</DropdownItem>
-                            <DropdownItem>Show 15</DropdownItem>
-                            <DropdownItem>show 10</DropdownItem>
-                            <DropdownItem>Show 5</DropdownItem>
+                            {renderListPaginate(listPaginate,props)}
                         </DropdownMenu>
                     </ButtonDropdown>
                 </div>
