@@ -13,109 +13,8 @@ export default function ShopContent(props) {
     const [isOpenPaginate, setOpenPaginate] = useState(false);
     const toggle2 = () => setOpenPaginate(!isOpenPaginate);
 
-    const books = [
-        {
-            id: 1,
-            image: "",
-            title: "Book Title 1",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 2,
-            image: "",
-            title: "Book Title 2",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 1,
-            image: "",
-            title: "Book Title 1",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 2,
-            image: "",
-            title: "Book Title 2",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 1,
-            image: "",
-            title: "Book Title 1",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 2,
-            image: "",
-            title: "Book Title 2",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-        {
-            id: 3,
-            image: "",
-            title: "Book Title 3",
-            author: 'Author Name',
-            price: 50000
-        },
-    ]
     const listSort = [
-        {
-            name: 'Sort by on sale',
-            code: 'onSale'
-        },
-        {
-            name: 'Sort by popularity',
-            code: 'popular'
-        },
-        {
-            name: 'Sort by price low To high',
-            code: 'priceAsc'
-        },
-        {
-            name: 'Sort by price high to low',
-            code: 'priceDesc'
-        },
+        'onSale', 'popular', 'priceAsc', 'priceDesc'
     ]
 
     const listPaginate = [20, 15, 10, 5]
@@ -131,8 +30,8 @@ export default function ShopContent(props) {
     const renderListSort = (listSort, props) => {
         return listSort.map(item => {
             return <DropdownItem onClick={() => {
-                props.onSelectSort(item.code)
-            }}>{item.name}</DropdownItem>
+                props.onSelectSort(item)
+            }}>Sort by {item}</DropdownItem>
         })
     }
 
@@ -153,7 +52,7 @@ export default function ShopContent(props) {
                 <div>
                     <ButtonDropdown isOpen={isOpenSort} toggle={toggle1} style={{marginRight: 10}}>
                         <DropdownToggle caret size="sm">
-                            Sort By On Sale
+                            Sort by {props.sortType}
                         </DropdownToggle>
                         <DropdownMenu>
                             {renderListSort(listSort, props)}
@@ -162,7 +61,7 @@ export default function ShopContent(props) {
 
                     <ButtonDropdown isOpen={isOpenPaginate} toggle={toggle2}>
                         <DropdownToggle caret size="sm">
-                            Show 20
+                            Show {props.pageSize}
                         </DropdownToggle>
                         <DropdownMenu>
                             {renderListPaginate(listPaginate,props)}
@@ -172,11 +71,11 @@ export default function ShopContent(props) {
             </div>
             <div>
                 <Row>
-                    {renderlistBook(books)}
+                    {renderlistBook(props.listBook)}
                 </Row>
             </div>
             <div class='center-div'>
-                <Paginate />
+                <Paginate totalItem = {props.totalItem} pageSize = {props.pageSize} page = {props.page} onSelectPage = {props.onSelectPage}/>
             </div>
         </div>
            

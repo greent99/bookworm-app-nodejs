@@ -27,10 +27,10 @@ module.exports = {
         const limit = req.query.size ? +req.query.size : 20;
         const offset = req.query.page ? (req.query.page - 1) * limit : 0;
 
-
         if (sortType == 'onSale') {
             books = await Book.findAll({
                 where: conditions,
+                include: Author,
                 attributes: {
                     include: [
                         [sequelize.literal(`(select (books.book_price - discounts.discount_price) from discounts
@@ -53,6 +53,7 @@ module.exports = {
         if (sortType == 'popular') {
             books = await Book.findAll({
                 where: conditions,
+                include: Author,
                 attributes: {
                     include: [
                         [sequelize.literal(`(select COUNT(*) from reviews where reviews.book_id = books.id)`), 'review_count']
@@ -70,6 +71,7 @@ module.exports = {
         if (sortType == 'priceAsc') {
             books = await Book.findAll({
                 where: conditions,
+                include: Author,
                 order: [['book_price', 'ASC']],
                 limit: limit,
                 offset: offset
@@ -79,14 +81,20 @@ module.exports = {
         if (sortType == 'priceDesc') {
             books = await Book.findAll({
                 where: conditions,
+                include: Author,
                 order: [['book_price', 'DESC']],
                 limit: limit,
                 offset: offset
             });
         }
+    
+        const totalItem = await Book.findAndCountAll({
+            where: conditions
+        })
 
         return res.json({ 
             data: books,
+            totalItem: totalItem.count,
             status: 200
         })
     },
@@ -104,6 +112,7 @@ module.exports = {
                     [sequelize.literal(`(select COUNT(*) from discounts where discounts.book_id = books.id)`), 'discount_count']
                 ]
             },
+            include: Author,
             order: [
                 [sequelize.literal('discount_count'), 'DESC'],
                 [sequelize.literal('sub_price'), 'DESC'],
@@ -136,6 +145,7 @@ module.exports = {
                     [sequelize.Op.in]: sequelize.literal('(' + tempSql + ')') 
                 }
             },
+            include: Author,
             order: [
                 [sequelize.literal('rating_avg'), 'DESC'],
                 ['book_price', 'ASC']
@@ -159,6 +169,7 @@ module.exports = {
                     [sequelize.literal(`(select COUNT(*) from reviews where reviews.book_id = books.id)`), 'review_count']
                 ]
             },
+            include: Author,
             order: [
                 [sequelize.literal('review_count'), 'DESC'],
                 ['book_price', 'ASC']
@@ -178,7 +189,13 @@ module.exports = {
         const book = await Book.findOne({
             where: {
                 id: id
-            }
+            },
+            attributes: {
+                include: [
+                    [sequelize.literal(`(select avg(cast(reviews.rating_start as int)) from reviews where reviews.book_id = books.id and books.id = ${id})`), 'rating_avg']
+                ]
+            },
+            include: Author
         })
         return res.json({ 
             data: book,
@@ -218,6 +235,10 @@ module.exports = {
         const star_5 = await Review.findAndCountAll({
             where: { book_id: id, rating_start: '5' }
         })
+
+        const totalItem = await Review.findAndCountAll({
+            where: {book_id: id}
+        })
         
         return res.json({ 
             data: data,
@@ -226,7 +247,8 @@ module.exports = {
             star_2: star_2.count,
             star_3: star_3.count,
             star_4: star_4.count,
-            star_5: star_5.count
+            star_5: star_5.count,
+            totalItem: totalItem.count
          })
     },
 

@@ -7,14 +7,16 @@ import {
 import bookimg from '../../book.jpg'
 
 export default function BookCard(props) {
+    const url_detail = `/book/${props.item.id}`
     return (
         (
-            <div>
-                <Card>
-                    <CardImg top width="100%"  src={bookimg} alt="Card image cap" />
-                    <CardBody>
+            <div style={{height: "100%"}}>
+                <Card style={{height: "100%"}}>
+                    <CardImg top src={bookimg} alt="Card image cap" />
+                    <CardBody >
+                        <a href={url_detail} class="stretched-link"></a>
                         <CardTitle tag="h5">{props.item.book_title}</CardTitle>
-                        <CardSubtitle tag="h6" className="mb-2 text-muted">{props.item.author_id}</CardSubtitle>
+                        <CardSubtitle tag="h6" className="mb-2 text-muted">{props.item.author.author_name}</CardSubtitle>
                         <CardFooter>{props.item.book_price} đ</CardFooter>
                     </CardBody>
                 </Card>

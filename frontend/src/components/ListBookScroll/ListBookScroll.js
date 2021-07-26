@@ -6,7 +6,6 @@ const axios = require('axios');
 
 export default function ListBookScroll() {
     const [books, setBooks] = useState([])
-    const [loading, setLoading] = useState(true)
     useEffect(() => {
         axios.get('http://localhost:3000/books/getTopOnsale?top=4')
         .then(function (response) {
@@ -18,17 +17,12 @@ export default function ListBookScroll() {
         .catch(function (error) {
             // handle error
             console.log(error);
-          })
-          .finally(function () {
-                setLoading(false)
           });
     }, [])
 
-    console.log(books)
-
     const renderlistBook = (books) => {
         return books.map((item, index) => {
-            return <Col sm="3">
+            return <Col sm="3" >
                 <BookCard item={item} key={index}></BookCard>
             </Col>
         })

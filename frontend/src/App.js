@@ -31,7 +31,7 @@ function App (props) {
         <Route exact path="/shop">
           <Shop />
         </Route>
-        <Route exact path="/book">
+        <Route exact path="/book/:id">
           <BookDetail />
         </Route>
         <Route exact path="/cart">
