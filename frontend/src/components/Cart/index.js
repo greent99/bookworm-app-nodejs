@@ -12,10 +12,12 @@ export default function Cart() {
 
     const renderBookIncart = (cart) => {
         return cart.map(item => {
+            const url_detail = `http://localhost:3001/book/${item.id}`
             return (<tr key={item.id}>
                 <th class='d-flex justify-content-start'>
                     <img  height='100'  src={bookimg} alt="Card image cap"/>
                     <div class='d-flex align-items-center justify-content-center flex-column'>
+                        <a href={url_detail} class="stretched-link"></a>
                         <h6 class='text-primary'>{item.book_title}</h6>
                         <p class='text-primary'>{item.author.author_name}</p>
                     </div>

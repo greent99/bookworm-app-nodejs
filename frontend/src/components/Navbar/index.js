@@ -5,12 +5,12 @@ import { CartContext } from "../../context/CartContext";
 
 function Navbar(props) {
   const { cartItems } = useContext(CartContext);
-  console.log(cartItems)
+  const url_detail = `http://localhost:3001`
   return (
     (
       <nav id="navbar">
         <div class="navbar-title">
-          <p>BOOKWORM</p>
+          <a href={url_detail} style={{width: 1, height: 1}}>BOOKWORM</a>
         </div>
         <ul>
           <Link to="/">

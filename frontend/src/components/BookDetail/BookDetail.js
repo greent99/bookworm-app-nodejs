@@ -70,7 +70,7 @@ export default function BookDetail() {
                             </Col>
                     </Row>
                 </div>
-                <div style={{marginTop: 50}}>
+                <div style={{marginTop: 50, marginBottom: 50}}>
                     <Row>
                         <Col sm='8'>
                             <ReviewCustomer book = {book}/>

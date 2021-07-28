@@ -2,6 +2,7 @@ import {React, useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Row, Col } from 'reactstrap';
 import ListReview from '../ListReview';
+import './ReviewCustomer.css'
 const axios = require('axios')
 
 export default function ReviewCustomer(props) {
@@ -90,19 +91,19 @@ export default function ReviewCustomer(props) {
                 </div>
                 <div class='d-flex justify-content-start'>
                     {
-                        props.book.rating_avg ? <h4>{props.book.rating_avg} Star</h4> : <h4>0 Star</h4>
+                        props.book.rating_avg ? <h4>{Math.round(props.book.rating_avg*10) / 10} Star</h4> : <h4>0 Star</h4>
                     }
                 </div>
                 <div class='d-flex justify-content-start'>
                     <p class='text-primary' style={{marginRight: 15}}>{totalReview} Reivews </p>
-                    <p class='text-primary'>5 star({star1})</p>
-                    <p class='text-primary'> | 4 star({star2})</p>
-                    <p class='text-primary'> | 3 star({star3})</p>
-                    <p class='text-primary'> | 2 star({star4})</p>
-                    <p class='text-primary'> | 1 star({star5})</p>
+                    <p >5 star({star5})</p>
+                    <p > | 4 star({star4})</p>
+                    <p > | 3 star({star3})</p>
+                    <p > | 2 star({star2})</p>
+                    <p > | 1 star({star1})</p>
                 </div>
                 <div class='d-flex justify-content-between'>
-                    <p class='text-primary'>Showing 1-12 of {totalReview} reviews</p>
+                    <p class='text-primary'>Showing 1-{pageSize} of {totalReview} reviews</p>
                     <div>
                         <ButtonDropdown isOpen={isOpenSort} toggle={toggle1} style={{marginRight: 10}}>
                             <DropdownToggle caret size="sm">

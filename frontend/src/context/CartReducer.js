@@ -15,10 +15,14 @@ export const CartReducer = (state, action) => {
             if (!state.cartItems.find(item => item.id === action.payload.id)) {
                 state.cartItems.push({
                     ...action.payload,
-                    quantity: 1
+                    quantity: action.payload.quantity
                 })
             } 
-
+            else
+            {
+                const updateItem = state.cartItems[state.cartItems.findIndex(item => item.id === action.payload.id)]
+                updateItem.quantity += action.payload.quantity
+            }
             return {
                 ...state,
                 ...sumItems(state.cartItems),
@@ -39,6 +43,12 @@ export const CartReducer = (state, action) => {
             }
         case "DECREASE":
             state.cartItems[state.cartItems.findIndex(item => item.id === action.payload.id)].quantity--
+            if(state.cartItems[state.cartItems.findIndex(item => item.id === action.payload.id)].quantity < 0)
+                return {
+                    ...state,
+                    ...sumItems(state.cartItems.filter(item => item.id !== action.payload.id)),
+                    cartItems: [...state.cartItems.filter(item => item.id !== action.payload.id)]
+                }
             return {
                 ...state,
                 ...sumItems(state.cartItems),
