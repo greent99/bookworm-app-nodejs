@@ -17,13 +17,13 @@ export default function BookDetail() {
         author: { author_name: '' }
     })
     const [quantity, setQuantity] = useState(1)
-    const [payload, setPayload] = useState({})
     useEffect(() => {
         // get book detail
         axios.get(`http://localhost:3000/books/${id}`)
         .then(function (response) {
             if(response.data.status == 200)
             {
+                response.data.data.quantity = 1
                 setBook(response.data.data)
             }
         })

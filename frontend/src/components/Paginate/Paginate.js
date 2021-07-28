@@ -3,6 +3,9 @@ import {React, useState} from 'react'
 import Pagination from "react-js-pagination";
 
 export default function Paginate(props) {
+    const handlePageClick = () => {
+        window.scrollTo(0, 0)
+    }
 
     return (
         <div>
@@ -14,6 +17,7 @@ export default function Paginate(props) {
                 totalItemsCount={props.totalItem}
                 pageRangeDisplayed={5}
                 onChange={props.onSelectPage.bind(this)}
+                onPageChange={handlePageClick}
             />
         </div>
     )

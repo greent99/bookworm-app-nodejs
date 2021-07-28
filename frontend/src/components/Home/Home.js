@@ -10,7 +10,7 @@ export default function Home(props) {
     <div class="container" style={{marginTop: 50}}>
       <div id="head-title">
         <p class="text-primary">On Sale</p>
-        <Button color="secondary">View All</Button>{' '}
+        <Button onClick={()=>{window.location.href = '/shop'}} color="secondary">View All</Button>{' '}
       </div>
       <ListBookScroll />
       <FeaturedBook />

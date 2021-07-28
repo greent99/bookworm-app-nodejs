@@ -13,14 +13,17 @@ export default function BookCard(props) {
         (
             <div style={{height: "100%"}}>
                 <Card style={{height: "100%"}}>
-                    <CardImg top src={bookimg} alt="Card image cap" />
-                    
-                    <CardBody >
-                        <a href={url_detail} class="stretched-link"></a>
-                        <CardTitle tag="h5">{props.item.book_title}</CardTitle>
-                        <CardSubtitle tag="h6" className="mb-2 text-muted">{props.item.author.author_name}</CardSubtitle>
-                        <CardFooter>{props.item.book_price} đ</CardFooter>
-                    </CardBody>
+                    <div class='d-flex justify-content-stretch flex-column' style={{height: "100%"}} >
+                        <CardImg top src={bookimg} alt="Card image cap" />
+                        <CardBody >
+                            <div class='d-flex justify-content-between flex-column' >
+                                <a href={url_detail} class="stretched-link"></a>
+                                <CardText >{props.item.book_title}</CardText>
+                                <CardSubtitle style={{color: 'blueviolet'}} tag="h6" className="mb-2 text-muted">{props.item.author.author_name}</CardSubtitle>
+                                <CardFooter>{props.item.book_price} đ</CardFooter>
+                            </div>
+                        </CardBody>
+                    </div>
                 </Card>
             </div>
         )

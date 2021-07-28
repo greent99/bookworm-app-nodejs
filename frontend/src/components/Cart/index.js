@@ -17,7 +17,7 @@ export default function Cart() {
                 <th class='d-flex justify-content-start'>
                     <img  height='100'  src={bookimg} alt="Card image cap"/>
                     <div class='d-flex align-items-center justify-content-center flex-column'>
-                        <a href={url_detail} class="stretched-link"></a>
+                        
                         <h6 class='text-primary'>{item.book_title}</h6>
                         <p class='text-primary'>{item.author.author_name}</p>
                     </div>

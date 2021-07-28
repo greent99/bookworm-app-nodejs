@@ -43,11 +43,13 @@ export default function ShopContent(props) {
         })
     }
 
+    const index = (props.page - 1) * props.pageSize + 1
+
     return (
         <div>
             <div class='shop-content-head'>
                 <div class='text'>
-                    <p >Showing 1-12 of 126 books</p>
+                    <p >Showing {index}-{index + props.pageSize - 1} of {props.totalItem} books</p>
                 </div>
                 <div>
                     <ButtonDropdown isOpen={isOpenSort} toggle={toggle1} style={{marginRight: 10}}>

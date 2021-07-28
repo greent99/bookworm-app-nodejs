@@ -83,6 +83,8 @@ export default function ReviewCustomer(props) {
     const [isOpenPaginate, setOpenPaginate] = useState(false);
     const toggle2 = () => setOpenPaginate(!isOpenPaginate);
 
+    const index = (page - 1) * pageSize + 1
+
     return (
         <div class='border' style={{backgroundColor: '#FDFAFA'}}>
             <div style={{marginLeft: 30, marginRight: 30, marginTop: 30}}>
@@ -103,7 +105,7 @@ export default function ReviewCustomer(props) {
                     <p > | 1 star({star1})</p>
                 </div>
                 <div class='d-flex justify-content-between'>
-                    <p class='text-primary'>Showing 1-{pageSize} of {totalReview} reviews</p>
+                    <p class='text-primary'>Showing {index}-{index+pageSize-1} of {totalReview} reviews</p>
                     <div>
                         <ButtonDropdown isOpen={isOpenSort} toggle={toggle1} style={{marginRight: 10}}>
                             <DropdownToggle caret size="sm">

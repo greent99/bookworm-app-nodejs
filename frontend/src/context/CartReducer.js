@@ -12,6 +12,7 @@ export const sumItems = cartItems => {
 export const CartReducer = (state, action) => {
     switch (action.type) {
         case "ADD_ITEM":
+            console.log(action.payload.quantity)
             if (!state.cartItems.find(item => item.id === action.payload.id)) {
                 state.cartItems.push({
                     ...action.payload,
@@ -20,6 +21,7 @@ export const CartReducer = (state, action) => {
             } 
             else
             {
+                
                 const updateItem = state.cartItems[state.cartItems.findIndex(item => item.id === action.payload.id)]
                 updateItem.quantity += action.payload.quantity
             }

@@ -2,15 +2,20 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { CartContext } from "../../context/CartContext";
+import BookLogo from '../../book_logo.jpg'
 
 function Navbar(props) {
   const { cartItems } = useContext(CartContext);
-  const url_detail = `http://localhost:3001`
   return (
     (
       <nav id="navbar">
-        <div class="navbar-title">
-          <a href={url_detail} style={{width: 1, height: 1}}>BOOKWORM</a>
+        <div class="navbar-title d-flex justify-content-center align-items-center">
+          <img src={BookLogo} width='64'></img>
+          <Link to="/">
+            <div >
+              <p style={{fontSize: 15}}>BookWorm</p>
+            </div>
+          </Link>
         </div>
         <ul>
           <Link to="/">
