@@ -14,10 +14,10 @@ export default function BookDetail() {
     const {addProduct} = useContext(CartContext)
     let { id } = useParams();
     const [book, setBook] = useState({
-        author: { author_name: '' },
-        quantity: 1
+        author: { author_name: '' }
     })
     const [quantity, setQuantity] = useState(1)
+    const [payload, setPayload] = useState({})
     useEffect(() => {
         // get book detail
         axios.get(`http://localhost:3000/books/${id}`)

@@ -16,7 +16,7 @@ export default function BookCard(props) {
                     <CardImg top src={bookimg} alt="Card image cap" />
                     
                     <CardBody >
-                        <Link to={url_detail}>go to detail</Link>
+                        <a href={url_detail} class="stretched-link"></a>
                         <CardTitle tag="h5">{props.item.book_title}</CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">{props.item.author.author_name}</CardSubtitle>
                         <CardFooter>{props.item.book_price} đ</CardFooter>

@@ -3,15 +3,16 @@ import { Col, Row, Button, Card, CardHeader, CardFooter, CardBody,
     CardTitle, CardText } from 'reactstrap'
 import './Cart.css'
 import bookimg from '../../book.jpg'
-
+import { CartContext } from '../../context/CartContext'
+const axios = require('axios')
 
 export default function Cart() {
 
-    // const {cartItems} = useContext(AppContext)
+    const {cartItems, increase, decrease, total, handleCheckout} = useContext(CartContext)
 
     const renderBookIncart = (cart) => {
         return cart.map(item => {
-            return (<tr>
+            return (<tr key={item.id}>
                 <th class='d-flex justify-content-start'>
                     <img  height='100'  src={bookimg} alt="Card image cap"/>
                     <div class='d-flex align-items-center justify-content-center flex-column'>
@@ -24,9 +25,9 @@ export default function Cart() {
                 </td>
                 <td>
                     <div class='d-flex flex-row justify-content-around align-items-center' >
-                        <Button size='sm' >+</Button>
+                        <Button size='sm' onClick={() => increase(item)}>+</Button>
                         <h5>{item.quantity}</h5>
-                        <Button size='sm'>-</Button>
+                        <Button size='sm' onClick={() => decrease(item)}>-</Button>
                     </div>
                 </td>
                 <td>{Math.round(item.quantity*item.book_price * 100) / 100}$</td>
@@ -34,10 +35,26 @@ export default function Cart() {
         })
     }
 
+    const placeOrder = () =>
+    {
+        const data = {order_amount: +total, productArr: cartItems}
+        axios.post(`http://localhost:3000/orders/add`, data)
+        .then(function (response) {
+            if(response.data.status == 200)
+            {
+                handleCheckout()
+            }
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+    }
+
     return (
             <div class='container' style={{marginTop: 50}}>
                 <div class='d-flex justify-content-start'>
-                    <h5>Your cart: 3 items</h5>
+                    <h5>Your cart: {cartItems.length} items</h5>
                 </div>
                 <hr></hr>
                 <div>
@@ -53,7 +70,7 @@ export default function Cart() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* {renderBookIncart(cartItems)} */}
+                                    {renderBookIncart(cartItems)}
                                 </tbody>
                             </table>
                         </Col>
@@ -61,10 +78,12 @@ export default function Cart() {
                             <Card>
                                 <CardHeader>Cart total</CardHeader>
                                 <CardBody style={{marginTop: 30}}>
-                                    {/* { cartItems.length > 0 ? <CardTitle tag="h5"></CardTitle> 
+                                    { cartItems.length > 0 ? <CardTitle tag="h5">${total}</CardTitle> 
                                     : <CardTitle tag="h5">$0</CardTitle>
-                                    } */}
-                                    <Button style={{marginTop: 30, width: '100%'}}>Place order</Button>
+                                    }
+                                    {cartItems.length > 0 ? <Button style={{marginTop: 30, width: '100%'}} onClick={placeOrder}>Place order</Button> 
+                                    : <Button style={{marginTop: 30, width: '100%'}} onClick={placeOrder} disabled='true'>Place order</Button>
+                                    }
                                 </CardBody>
                             </Card>
                         </Col>

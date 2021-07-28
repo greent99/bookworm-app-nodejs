@@ -4,7 +4,7 @@ const sequelize = require('../utils/db')
 
 module.exports = {
     async addOrder(req, res) {
-        //const t = await sequelize.transaction();
+        console.log(req.body.productArr)
         try {
             const productArr = req.body.productArr || null
             if(productArr != null && productArr.length > 0)
@@ -20,8 +20,8 @@ module.exports = {
                 let order_item;
                 for(order_item of productArr)
                 {
-                    const book_id = order_item.book_id
-                    const price = order_item.price
+                    const book_id = order_item.id
+                    const price = order_item.book_price
                     const quantity = order_item.quantity
                     const order_id = order.id
 
