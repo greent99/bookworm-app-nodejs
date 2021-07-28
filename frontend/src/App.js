@@ -10,12 +10,11 @@ import Shop from "./components/Shop/Shop";
 import BookDetail from "./components/BookDetail/BookDetail";
 import Cart from "./components/Cart";
 import About from "./components/About";
-import GlobalState from './context/GlobalState'
+import CartContext from './context/CartContext'
 
 function App (props) {
-  
   return (
-    <GlobalState>
+    <CartContext>
       <Router>
           <div className="App">
             <Navbar />
@@ -39,8 +38,7 @@ function App (props) {
           </div>
 
       </Router>
-
-    </GlobalState>
+    </CartContext>
   );
 }
 

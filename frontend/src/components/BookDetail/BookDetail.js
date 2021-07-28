@@ -7,16 +7,17 @@ import { Col, Row, Card, Button, CardHeader, CardFooter, CardBody,
 import BookDetailTitle from '../BookDetailTitle/BookDetailTitle'
 import ReviewCustomer from '../ReviewCustomer'
 import ReviewForm from '../ReviewForm'
-import AppContext from '../../context/AppContext'
+import { CartContext } from '../../context/CartContext'
 const axios = require('axios')
 
 export default function BookDetail() {
+    const {addProduct} = useContext(CartContext)
     let { id } = useParams();
     const [book, setBook] = useState({
-        author: { author_name: '' }
+        author: { author_name: '' },
+        quantity: 1
     })
     const [quantity, setQuantity] = useState(1)
-    const [payload, setPayload] = useState({book: book, quantity: quantity})
     useEffect(() => {
         // get book detail
         axios.get(`http://localhost:3000/books/${id}`)
@@ -33,16 +34,10 @@ export default function BookDetail() {
     }, [])
 
     useEffect(() => {
-        setPayload({
-            book: book,
-            quantity: quantity
-        })
-    }, [book, quantity])
+        setBook({...book, quantity: quantity})
+    }, [quantity])
 
     return (
-        //  <p>ok</p>
-        <AppContext.Consumer>
-            {context => (
             <div class='container' style={{marginTop: 50}}>
                 <div class='d-flex justify-content-start'>
                     <h3>Category Name</h3>
@@ -66,7 +61,9 @@ export default function BookDetail() {
                                             { quantity == 1 ? (<Button disabled='true' onClick={() => {setQuantity(quantity - 1)}} size='lg'>-</Button>) 
                                             : (<Button onClick={() => { setQuantity(quantity - 1) }} size='lg'>-</Button>) }
                                         </div>
-                                        <Button style={{width: '75%', marginTop: 10}} size='lg' onClick={context.addProductToCart.bind(this, payload)}>Add to cart</Button>
+                                        <Button style={{width: '75%', marginTop: 10}} 
+                                            onClick = {() => addProduct(book)}
+                                        size='lg'>Add to cart</Button>
                                     </CardBody>
                                     <CardFooter>Book Worm</CardFooter>
                                 </Card>
@@ -84,7 +81,5 @@ export default function BookDetail() {
                     </Row>
                 </div>
             </div>
-            )}
-        </AppContext.Consumer>
     )
 }
