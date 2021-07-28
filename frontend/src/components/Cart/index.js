@@ -1,10 +1,13 @@
-import React from 'react'
+import {React, useContext} from 'react'
 import { Col, Row, Button, Card, CardHeader, CardFooter, CardBody,
     CardTitle, CardText } from 'reactstrap'
 import './Cart.css'
 import bookimg from '../../book.jpg'
+import AppContext from '../../context/AppContext'
 
 export default function Cart() {
+    const context = useContext(AppContext);
+
     return (
         <div class='container' style={{marginTop: 50}}>
             <div class='d-flex justify-content-start'>

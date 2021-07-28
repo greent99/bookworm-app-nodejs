@@ -1,8 +1,11 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import AppContext from "../../context/AppContext";
 
 function Navbar(props) {
+  const {cart} = useContext(AppContext)
+
   return (
     (
       <nav id="navbar">
@@ -20,7 +23,7 @@ function Navbar(props) {
             <li>About</li>
           </Link>
           <Link to="/cart">
-            <li>Cart(0)</li>
+            <li>Cart({cart.length})</li>
           </Link>
         </ul>
       </nav>

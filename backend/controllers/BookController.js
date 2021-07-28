@@ -256,7 +256,7 @@ module.exports = {
     async addReview(req, res) {
         const id = req.params.id
         const review_title = req.body.review_title
-        const review_details = req.body.review_details
+        const review_details = req.body.review_details || ''
         const rating_start = req.body.rating_start
         const current_date = new Date()
         const review = await Review.create({
